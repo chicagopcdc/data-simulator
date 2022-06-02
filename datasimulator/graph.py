@@ -167,7 +167,9 @@ class Graph(object):
                 # expect node_links contains list of links
                 for link in node_links:
                     if isinstance(link, dict):
-                        if not link.get("required"):
+                        if link.get("name") != "timings" and not link.get("required"):
+                        # if not link.get("required"):
+                            logger.info("LUCAAAA Skipping {}".format(link))
                             continue
                         if "target_type" in link:
                             self._add_required_link_to_node(
@@ -260,6 +262,9 @@ class Graph(object):
             None
         """
         submission_order = self.generate_submission_order()
+
+        logger.info("LUCAAAAAA order: {}".format([sub.name for sub in submission_order]))
+        # exit()
 
         with open(join(path, "DataImportOrder.txt"), "w") as outfile:
             for node in submission_order:
