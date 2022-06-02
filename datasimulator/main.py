@@ -3,8 +3,8 @@ import argparse
 
 from dictionaryutils import DataDictionary, dictionary
 
-from .graph import Graph
-from .submit_data_utils import submit_test_data
+from datasimulator.graph import Graph
+from datasimulator.submit_data_utils import submit_test_data
 
 from cdislogging import get_logger
 
