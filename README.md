@@ -88,3 +88,16 @@ poetry install -vv
 poetry install -vv
 poetry run pytest -vv ./tests
 ```
+
+
+## PCDC notes
+    - `poetry install -vv`
+    - `data-simulator simulate --url https://pcdc-gen3-dictionaries.s3.amazonaws.com/pcdc-schema-compose-20220106.json --path /path/to/save/simulated/data --program pcdc --project 20211006`
+    - use the `max_samples` params to create more than one record
+    - submit all with `data-simulator submitting_data --host http://devplanet.planx-pla.net --project DEV/test --dir ./data-simulator/sample_test_data --access_token_file ./token --chunk_size 10`
+
+    poetry run data-simulator simulate --url https://pcdc-gen3-dictionaries.s3.amazonaws.com/pcdc-schema-dev-20220106.json --path ~/Downloads/ --program pcdc --project 20211006 --max_samples 400 --random 
+
+python main.py simulate --url https://pcdc-compose-docs.s3.amazonaws.com/pcdc-schema-compose-20220516.json --path ./Downloads/sample_test_data --program pcdc --project 20220602 --max_samples 400 --random 
+
+python main.py simulate --url https://pcdc-compose-docs.s3.amazonaws.com/pcdc-schema-compose-20220516.json --path ~/Projects/GEN3_dev/dev_tools/gen3_scripts/gen3_load/fake_data/data-simulator --program pcdc --project 20220602 --max_samples 400 --random
