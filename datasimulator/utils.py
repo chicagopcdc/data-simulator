@@ -16,8 +16,39 @@ def is_mixed_type(arr):
 
 
 def random_choice(arr):
+    # if arr[0][]:
+    #     print( "INSIDE 3")
+    #     print(len(simulated_data))
+
     if arr:
         return random.choice(arr)
+    return None
+
+def timing_choice(arr, sample):
+    # print(arr)
+    # print(subjects)
+
+    # print(sample)
+    # sample["subjects"] if "subjects" in sample else None,/
+
+    # if sample["type"] == 'lesion_characteristics':
+    #     print( "INSIDE 4")
+    #     print(len(arr))
+
+    if arr:
+        subject_submitter_id = sample["subjects"]["submitter_id"]
+        timings_options = [timing for timing in arr if "subjects" in timing and timing["subjects"]["submitter_id"] == subject_submitter_id]
+        # if sample["type"] == 'lesion_characteristics' and len(timings_options) == 0:
+        #     print( "INSIDE 5")
+        #     # print(len(timings_options))
+        #     print(sample)
+        #     print(arr)
+        #     exit()
+        # print(timings_options)
+        # for timing in arr:
+        #     for subject in timing["subjects"]:
+        #         if subject["submitter_id"] in subjects_submitter_ids
+        return random_choice(timings_options)
     return None
 
 

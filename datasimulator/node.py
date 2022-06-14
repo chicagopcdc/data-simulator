@@ -12,7 +12,7 @@ from .generator import (
     generate_consent_code,
     generate_simple_primitive_data,
 )
-from .utils import is_mixed_type, random_choice, get_keys_list
+from .utils import is_mixed_type, random_choice, get_keys_list, timing_choice
 
 
 # Ingnore system properties
@@ -366,7 +366,17 @@ class Node(object):
 
         # simulate link properties
         try:
+            # if self.name == 'lesion_characteristics':
+            #     print("BEFORE !!")
+
             self._simulate_link_properties(simulated_data, random)
+
+            # if self.name == 'lesion_characteristics':
+            #     print("EXAMPLE !!")
+            #     print(simulated_data[0])
+            #     exit()
+
+
             # store to dataset
             if self.name == "project":
                 self.simulated_dataset = simulated_data[0]
@@ -431,32 +441,67 @@ class Node(object):
 
         """
         for link_node in self.required_links:
+            # logger.info("LUCAAAAAA simulate link. Random: {}".format(random))
+            # logger.info(link_node["name"])
+            # logger.info(self.name)
+            # if self.name == 'lesion_characteristics':
+            #     print(len(simulated_data))
             for idx, sample in enumerate(simulated_data):
+                # if self.name == 'lesion_characteristics' and link_node["name"] == 'timings':
+                #     print( "INSIDE 2")
+                #     print(len(simulated_data))
+                    
                 if link_node["name"] == "projects":
                     sample[link_node["name"]] = {"code": self.project}
                     continue
 
                 if link_node["multiplicity"] in {"many_to_one", "many_to_many"}:
+                    # logger.info(link_node["node"].simulated_dataset)
                     if random:
-                        choosen_sample = random_choice(
-                            link_node["node"].simulated_dataset
-                        )
+                        if link_node["name"] == 'timings' and sample["type"] != 'timing':
+                            choosen_sample = timing_choice(
+                                link_node["node"].simulated_dataset, sample
+                            )
+                        else:
+                            choosen_sample = random_choice(
+                                link_node["node"].simulated_dataset
+                            )
+
+                        # if self.name == 'lesion_characteristics' and link_node["name"] == 'timings':
+                        #     print( "INSIDE 3")
+                        #     print(len(simulated_data))
+
+                        # choosen_sample = random_choice(
+                        #     link_node["node"].simulated_dataset
+                        # )
                     else:
                         choosen_sample = (
                             link_node["node"].simulated_dataset[idx]
                             if idx < len(link_node["node"].simulated_dataset)
                             else random_choice(link_node["node"].simulated_dataset)
                         )
+                    # logger.info("choosen_sample: {}".format(choosen_sample))
                     if choosen_sample:
                         sample[link_node["name"]] = {
                             "submitter_id": choosen_sample["submitter_id"]
                         }
+
+                    # if sample["type"] == 'lesion_characteristics' and choosen_sample["type"] == 'timing':
+                    #     print(choosen_sample)
+                    #     print(sample)
+                    #     exit()
                 else:
                     sample[link_node["name"]] = {
                         "submitter_id": link_node["node"].simulated_dataset[idx][
                             "submitter_id"
                         ]
                     }
+                # logger.info(sample)
+                # if link_node["name"] != 'timings':
+                # logger.info(sample[link_node["name"]])
+                # if self.name not in ['timing', 'subject', 'person', 'project', 'program'] and link_node["name"] == 'timings':
+                    # exit()
+
 
     def _simulate_submitter_id(self):
         return self.name + "_" + generate_string_data()

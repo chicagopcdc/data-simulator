@@ -286,11 +286,16 @@ class Graph(object):
             if is_submitable:
                 # simulate data
                 logger.info("Simulating data for node {}".format(node.name))
+                # logger.info("node required links {}".format(node.required_links))
                 node.simulate_data(
                     n_samples=n_samples_list[idx],
                     random=random,
                     required_only=required_only,
                 )
+
+                # print(node.simulated_dataset)
+                # if node.name == 'lesion_characteristics':
+                #     exit()
             else:
                 if not skip:
                     raise DictionaryError("Can not simulate node {}".format(node.name))
