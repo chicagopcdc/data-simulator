@@ -23,6 +23,7 @@ rstr = "2.2.6"
 requests = "^2.18.0"
 dictionaryutils = "^3.0.2"
 psqlgraph = "~3.0"
+pyyaml = "5.3.1"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=3.5"
